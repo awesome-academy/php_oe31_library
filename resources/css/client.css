@@ -214,7 +214,7 @@ i.vote-current {
 
 .img-client-general {
     height: 219px;
-    width:300px;
+    width: 300px;
 }
 
 .li {
@@ -263,6 +263,23 @@ i.vote-current {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.btn-group {
+    width: 100%;
+}
+
+.btn-group .dropdown-menu {
+    right: -20px;
+}
+
+.notification-text {
+    font-size: 12px;
+}
+
+ul.dropdown-menu.notification-data.show {
+    overflow-x: auto;
+    height: 250px;
 }
 
 @media only screen and (max-width: 1450px) {

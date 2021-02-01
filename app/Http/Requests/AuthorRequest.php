@@ -28,7 +28,7 @@ class AuthorRequest extends FormRequest
 
         return [
             'name' => [
-                'max:255|
+                'max:255 |
                 required', Rule::unique('authors')->ignore($id),
             ],
             'description' => 'max:255',

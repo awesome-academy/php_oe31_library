@@ -24,7 +24,8 @@
                     @endif
                     <li class="p-category">
                         <a href="{{ route('change-language', ['language' => 'en']) }}">{{ trans('client.en') }}</a>
-                        <a href="{{ route('change-language', ['language' => 'vi']) }}">{{ trans('client.vi') }}</a>
+                        <a
+                            href="{{ route('change-language', ['language' => 'vi']) }}">{{ trans('client.vi') }}</a>
                     </li>
                 </ul>
                 <div class="c-btn"> <a href="{{ route('cart') }}" class="cart-btn">{{ trans('client.cart') }}</a>
@@ -32,6 +33,11 @@
                         <button data-toggle="dropdown" class="btn btn-mini dropdown-toggle">
                             {{ trans('client.item_cart') }}
                         </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                        </ul>
                     </div>
                 </div>
             </section>
