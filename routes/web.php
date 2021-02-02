@@ -54,6 +54,8 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('request-detail/{request}', 'RequestController@show')->name('request-detail');
         Route::get('vote', 'ReactionController@vote')->name('vote');
         Route::post('request', 'RequestController@request')->name('request');
+        Route::get('notify', 'NotificationController@index')->name('notify');
+        Route::get('notify-for-user', 'NotificationController@apiGetUser')->name('notify-for-user');
     });
 
     Route::get('/', 'BookController@index')->name('home');

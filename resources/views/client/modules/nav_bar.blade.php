@@ -14,7 +14,8 @@
                     <li><a href="{{ route('cart') }}">{{ trans('client.cart') }}</a></li>
                 </ul>
                 <div class="search-bar">
-                    <input name="search-client-book" id="search" type="text" value="{{ trans('client.filter_input') }}" />
+                    <input name="search-client-book" id="search" type="text"
+                        value="{{ trans('client.filter_input') }}" />
                 </div>
                 <div id="data-search" class="box-filter"></div>
             </section>
@@ -29,6 +30,15 @@
                 <div class="nav-collapse collapse">
                     <ul class="nav">
                         <li> <a href="{{ route('home') }}">{{ trans('book.menu') }}</a> </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="grid-view.html" data-toggle="dropdown">
+                                <i class="icon-bell-alt"></i>
+                                Notifications:
+                                <span class="number-notify-user"></span>
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu notification-data"></ul>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -36,6 +46,9 @@
     </nav>
 </header>
 @section('script')
+    <script src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/search.js') }}" defer>
+    </script>
+    <script type="text/javascript" src="{{ asset('js/notification_user.js') }}" defer>
     </script>
 @endsection

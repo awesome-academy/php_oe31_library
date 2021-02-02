@@ -9,6 +9,7 @@ use App\Models\Request;
 use App\Models\Role;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Notification;
 
 class User extends Authenticatable
 {
@@ -72,6 +73,11 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function notification()
+    {
+        return $this->hasMany(Notification::class, 'id', 'notifiable_id');   
     }
 
     public function hasPermission(Permission $permission)
