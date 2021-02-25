@@ -12,11 +12,11 @@ use App\Repositories\Book\BookRepositoryInterface;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Publisher\PublisherRepositoryInterface;
 use App\Repositories\Request\RequestRepositoryInterface;
-use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\Role\RoleRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
+use Illuminate\Support\Facades\Notification;
 use Mockery as m;
 use Tests\TestCase;
-use Illuminate\Support\Collection;
 
 class RequestControllerTest extends TestCase
 {
@@ -41,8 +41,18 @@ class RequestControllerTest extends TestCase
         $this->roleRepo = m::mock(RoleRepositoryInterface::class)->makePartial();
         $this->requestController = new RequestController($this->requestRepo, $this->bookRepo, $this->categoryRepo, $this->publisherRepo, $this->authorRepo, $this->userRepo, $this->roleRepo);
         $this->request = factory(Request::class)->make();
-        $this->user = factory(User::class)->make();
-        $this->user2 = factory(User::class)->make();
+        $this->users = factory(User::class, 1)->make([
+            'id' => 1,
+            'name' => 'User Test',
+            'email' => 'UserTest@gmail.com',
+            'password' => '12345678',
+            'address' => 'Long Biên',
+            'phone' => '012345678',
+            'role_id' => 5,
+            'times' => 0,
+            'status' => 0,
+        ]);
+        $this->user = $this->users[0];
         $this->book = factory(Book::class)->make();
         $this->request->id = 1;
         $this->user->setRelation('requests', [$this->request]);
@@ -240,5 +250,54 @@ class RequestControllerTest extends TestCase
             ->andReturn($totalBookSuccess);
         $view = $this->requestController->request($request);
         $this->assertEquals('http://127.0.0.1:8000', $view->getTarGetUrl());
+    }
+
+    public function test_request_create_order()
+    {
+        Notification::fake();
+        $this->be($this->user);
+        $this->withSession(['cart' => [$this->id => ['id' => 1]]]);
+        $order = [
+            'id' => '2',
+            'users' => 2,
+            "borrowed_date" => "2021-02-13",
+            "return_date" => "2021-2-26",
+        ];
+        $roleList = collect([(object) ["id" => 3], (object) ["id" => 4]]);
+        $this->be($this->user);
+        $idBook = ['2'];
+        $totalBookSuccess = 4;
+        $this->book->in_stock = 10;
+        $request = new OrderRequest($order);
+        $this->userRepo->shouldReceive('checkRequest')
+            ->once()
+            ->andReturn($idBook);
+        $this->userRepo->shouldReceive('getRequest')
+            ->once()
+            ->andReturn($this->user);
+        $this->requestRepo->shouldReceive('getTotalBook')
+            ->with($this->user->requests)
+            ->once()
+            ->andReturn($totalBookSuccess);
+        $this->requestRepo->shouldReceive('create')
+            ->once()
+            ->andReturn($request);
+        $this->bookRepo->shouldReceive('update')
+            ->once()
+            ->andReturn(true);
+        $this->roleRepo->shouldReceive('getRoleAdmins')
+            ->once()
+            ->andReturn($roleList);
+        $this->userRepo->shouldReceive('getUserHaveRoleAdmins')
+            ->once()
+            ->andReturn($this->users);
+        $this->bookRepo->shouldReceive('find')
+            ->once()
+            ->andReturn($this->book);
+        $this->requestRepo->shouldReceive('attach')
+            ->once()
+            ->andReturn(true);
+        $view = $this->requestController->request($request);
+        $this->assertEquals(route('cart'), $view->getTarGetUrl());
     }
 }
