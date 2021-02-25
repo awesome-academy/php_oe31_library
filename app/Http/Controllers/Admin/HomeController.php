@@ -40,7 +40,7 @@ class HomeController extends Controller
         foreach ($requests as $request) {
             array_push($data, $request);
         }
-
+        
         foreach ($data as $item) {
             $val = [
                 'month' => $item->month,
