@@ -49,14 +49,11 @@ class UserController extends Controller
         if (!$user) {
             $data['password'] = bcrypt($data['password']);
             $this->userRepo->create($data);
-            $request->session()->flash('infoMessage', trans('user.create_user_success'));
 
-            return redirect()->route('admin.users.index');
-        } else {
-            $request->session()->flash('checkIssetEmail', trans('user.isset_email'));
-
-            return redirect()->route('admin.users.index');
+            return redirect()->route('admin.users.index')->with('infoMessage', trans('user.create_user_success'));
         }
+
+        return redirect()->route('admin.users.index')->with('checkIssetEmail', trans('user.isset_email'));
     }
 
     public function edit($id)
@@ -68,11 +65,9 @@ class UserController extends Controller
 
         if ($user) {
             return view('admin.user.edit', compact('user'));
-        } else {
-            session()->flash('infoMessage', trans('user.isset_id'));
-
-            return redirect()->route('admin.users.index');
         }
+
+        return redirect()->route('admin.users.index')->with('infoMessage', trans('user.isset_id'));
     }
 
     public function update(UserRequest $request, $id)
@@ -88,14 +83,11 @@ class UserController extends Controller
                 'adrress' => $request->address,
                 'phone' => $request->phone,
             ]);
-            session()->flash('infoMessage', trans('user.update_user_success'));
 
-            return redirect()->route('admin.users.index');
-        } else {
-            session()->flash('infoMessage', trans('user.isset_id'));
-
-            return redirect()->route('admin.users.index');
+            return redirect()->route('admin.users.index')->with('infoMessage', trans('user.update_user_success'));
         }
+
+        return redirect()->route('admin.users.index')->with('infoMessage', trans('user.isset_id'));
     }
 
     public function destroy($id)
@@ -107,14 +99,11 @@ class UserController extends Controller
 
         if ($user) {
             $this->userRepo->destroy($id);
-            session()->flash('infoMessage', trans('user.delete_user_success'));
 
-            return redirect()->route('admin.users.index');
-        } else {
-            session()->flash('infoMessage', trans('user.isset_id'));
-
-            return redirect()->route('admin.users.index');
+            return redirect()->route('admin.users.index')->with('infoMessage', trans('user.delete_user_success'));
         }
+
+        return redirect()->route('admin.users.index')->with('infoMessage', trans('user.isset_id'));
     }
 
     public function search(Request $request)
