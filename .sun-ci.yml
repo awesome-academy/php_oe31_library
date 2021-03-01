@@ -12,9 +12,9 @@ jobs:
     - image: mysql:5.7
       name: mysql_test
       environment:
-         MYSQL_DATABASE: mysql
-         MYSQL_USER: user_test
-         MYSQL_PASSWORD: password_test
+         MYSQL_DATABASE: library
+         MYSQL_USER: root
+         MYSQL_PASSWORD: 
          MYSQL_ROOT_PASSWORD: root
   environment:
     APP_ENV: testing
