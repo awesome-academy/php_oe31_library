@@ -1,6 +1,7 @@
 var url = window.location.origin;
 
-function callApiNotification() {
+function callApiNotification()
+{
     $.ajax({
         url: url + '/admin/notification',
         type: 'GET',
@@ -51,7 +52,8 @@ function callApiNotification() {
 
 callApiNotification();
 
-function getNotification(number) {
+function getNotification(number)
+{
     setTimeout(function () {
         Echo.channel('channel-notification')
             .listen('NotificationEvent', (e) => {
