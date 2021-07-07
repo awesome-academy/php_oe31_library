@@ -16,7 +16,7 @@ return [
     'list_request' => 'Danh sách yêu cầu',
     'login' => 'Đăng nhập',
     'create_account' => 'Tạo tài khoản',
-    'hello' => 'Xin chào', 
+    'hello' => 'Xin chào',
     'reset_password' => 'Đặt mật khẩu mới',
     'forgot_password' => 'Quên mật khẩu',
     'header' => 'Bạn nhận được email này vì chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn.',

@@ -34,13 +34,27 @@ jobs:
   - composer install
   after_script:
   - echo "Finish job"
-
-- name: test:node
+  only:
+    branches:
+    - master
+- name: test:phpcs
   stage: test
-  image: node:12-alpine
+  image: sunasteriskrnd/php-workspace:7.4
+  before_script:
+  - composer global require "squizlabs/php_codesniffer=*"
+  - composer install
   script:
-  - yarn
-
+  - ~/.composer/vendor/bin/phpcs --ignore=vendor,bootstrap/cache/,storage,database,coverage,public/*,resources --standard=PSR2,PSR1 ./
+  # - ~/.composer/vendor/bin/phpcs --ignore=vendor,bootstrap/cache/,storage --standard=PSR2,PSR1 ./
+  - ~/.composer/vendor/bin/phpcs --standard=PSR2,PSR1 app
+  - ~/.composer/vendor/bin/phpcs --standard=PSR2,PSR1 config
+  - ~/.composer/vendor/bin/phpcs --standard=PSR2,PSR1 resources/lang
+  - ~/.composer/vendor/bin/phpcs --standard=PSR2,PSR1 resources/view
+  - ~/.composer/vendor/bin/phpcs --standard=PSR2,PSR1 routes
+  # - ~/.composer/vendor/bin/phpcs --standard=PSR2,PSR1 config
+  only:
+    branches:
+    - master
 - name: test:phpunit
   stage: test
   image: sunasteriskrnd/php-workspace:7.4
@@ -55,3 +69,6 @@ jobs:
     paths:
     - coverage
     expires_in: 3 days
+  only:
+    branches:
+    - master
