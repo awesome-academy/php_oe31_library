@@ -39,7 +39,8 @@ jobs:
   stage: test
   image: node:12-alpine
   script:
-  - yarn
+  - npm install
+  - npm run dev
 
 - name: test:phpunit
   stage: test
